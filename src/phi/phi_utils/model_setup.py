@@ -1,5 +1,6 @@
 # TODO - import relevant model and tokenizer modules from transformers
 import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 # helper function provided to get model info
 def get_model_info(model):
@@ -33,7 +34,11 @@ def model_and_tokenizer_setup(model_id_or_path):
     
     # End of TODO.
     ##################################################
+    
+    # Adapted from sample code: https://huggingface.co/microsoft/phi-2
+    model = AutoModelForCausalLM.from_pretrained(model_id_or_path, torch_dtype=torch.float16, attn_implementation="flash_attention_2", trust_remote_code=True) 
+    tokenizer = AutoTokenizer.from_pretrained(model_id_or_path, padding="max_length", padding_side="left", pad_token="<|endoftext|>", trust_remote_code=True)
 
-    # get_model_info(model)
+    print(get_model_info(model))
 
     return model, tokenizer
