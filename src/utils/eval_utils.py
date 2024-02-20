@@ -1,4 +1,6 @@
 # TODO - import relevant sklearn score modules 
+from sklearn import metrics
+
 from sklearn.metrics import accuracy_score, f1_score
 import argparse
 from utils.file_utils import load_jsonl
@@ -20,7 +22,13 @@ def evaluate_standard(gt_labels, pred_labels):
 
     # End of TODO.
     ##################################################
+    
+    accuracy = metrics.accuracy_score(gt_labels, pred_labels)
+    
+    # Need to tell sklearn which label is the positive one    
+    f1score = metrics.f1_score(gt_labels, pred_labels, pos_label='SUPPORTS')
 
+    print(accuracy, f1score)
     return accuracy, f1score
 
 def model_eval_report(gt_filepath, pred_filepath):
